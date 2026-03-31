@@ -1,4 +1,9 @@
 /* eslint-disable */
+import { createClient } from '@supabase/supabase-js';
+const supabase = createClient(
+  'https://viiypnvebccawhzyhdqk.supabase.co',
+  'sb_publishable_VtY29zvcggEjJHOsUSBUtQ_UOPn0HMr'
+);
 import { useState, useRef, useEffect } from "react";
 
 const inputStyle = {
