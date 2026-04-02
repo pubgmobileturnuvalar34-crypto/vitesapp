@@ -41,11 +41,11 @@ function AuthScreen({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handle = () => {
+  const handle = async () => {
     if (!form.email || !form.sifre) { setError("Lütfen tüm alanları doldurun."); return; }
     if (mode === "register" && !form.ad) { setError("İsim gerekli."); return; }
     setLoading(true); setError("");
-    setTimeout(() => { setLoading(false); onLogin(form.ad || form.email.split("@")[0]); }, 1200);
+    if (mode === "register") { supabase.auth.signUp({ email: form.email, password: form.sifre }).then(({error}) => { if (error) { setError(error.message); setLoading(false); } else { setLoading(false); onLogin(form.ad || form.email.split("@")[0]); } }); } else { supabase.auth.signInWithPassword({ email: form.email, password: form.sifre }).then(({error}) => { if (error) { setError("E-posta veya sifre hatali!"); setLoading(false); } else { setLoading(false); onLogin(form.ad || form.email.split("@")[0]); } }); }
   };
 
   return (
